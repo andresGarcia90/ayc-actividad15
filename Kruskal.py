@@ -32,59 +32,68 @@ def buscarNodo(lista, elemento):
 
 def kruskal_con_conjunto(nodos,arcos):
     arcosOrdenados=[]
-    #inserto arcos en la lista ordenada
+    #inserto arcos en una lista ordenada
     for arco in arcos:
         agregarElementoLista(arcosOrdenados, arco)
-    print("k arcos ordenados",arcosOrdenados)
-    #creo el arbol vacio
-    t = Arbol.arbol()
+    #creo una lista de arboles
+    t_list = []
+    #Obtengo el total de nodos
     nodos_len = len(nodos)
+    
     i = 0
 
-    #creo los conjuntos de nodos
+    #creo los conjuntos disjuntos de nodos
     listaDS = []
     for nodo in nodos:
         a = DisjointSet.MakeSet(nodos[i])
         i=i+1
         listaDS.append(a)
-    print("listaDS: ",listaDS)
+
     i = 0
     while (i<nodos_len):
         arco = obtenerPrimero(arcosOrdenados)
         print("asd", arco[0][0], arco[0][1])
         u = buscarNodo(listaDS,arco[0][0])
         v = buscarNodo(listaDS,arco[0][1]) 
-        # print("arcos: ",arco)
         u_conjunto = DisjointSet.findSet(u)
         v_conjunto = DisjointSet.findSet(v)
         if u_conjunto != v_conjunto:
             DisjointSet.joinSet(u_conjunto,u_conjunto)
-            if i==0:
+            #caso de la raiz
+            if (len(t_list) == 0):
+                t = Arbol.arbol()
                 aux = t.insertarRaiz(u)
                 print("raiz ", aux.dato)
                 print("obtener raiz", t.obtenerRaiz().dato)
-                # t.insertar(t.obtenerRaiz,u,v)
+                t.insertar(t.obtenerRaiz,u.dato,v.dato,1)
                 i=i+2
+                t_list.append(t)
+            #caso en que se inserto un elemento
             else:
-                # t.insertar(t.obtenerRaiz,u,v)
-                i = i + 1
+                #busco si en la lista hay un arbol que contiene a los nodos.
+                arbol_nuevo = self.buscarNodosArboles(t_list,u,v)
+                #Encontre un arbol de la lista que tiene al nodo
+                if(arbol_nuevo != None):
+                    nodo_aux_u = arbol_nuevo.obtenerNodo(u)
+                    nodo_aux_v = arbol_nuevo.obtenerNodo(v)
+                    if u != None:
+                        arbol_nuevo.insertar(arbol_nuevo.obtenerRaiz(), u, v.dato, 1)
+                    else:
+                        arbol_nuevo.insertar(arbol_nuevo.obtenerRaiz(), v, u.dato, 1)
+                        
+                else:
+                    #Caso en que no encontre arbol
+                    t = Arbol.arbol()
+                    aux = t.insertarRaiz(u)
+                    t.insertar(t.obtenerRaiz,u,v)
+                    i=i+2
+                    t_list.append(t)
+    
+
+    
+nodos = [0,1,2,3,4]
+arcos = [[[0,1],10], [[0,3],30], [[0,2],40], [[1,3],20], [[2,4],50], [[3,4],60]]
 
 
-
-
-
-# lista = []
-
-# agregarElementoLista(lista,[[0,1],10])
-# print("lista: ", lista)
-# agregarElementoLista(lista,[[0,3],30])
-# print("lista: ", lista)
-# agregarElementoLista(lista,[[1,3],20])
-# print("lista: ", lista)
-
-arcos= [[[0,1],10],[[0,2],30]]
-print("arcos",arcos)
-nodos = [0,1,2]
-print("nodos", nodos)
 
 kruskal_con_conjunto(nodos, arcos)
