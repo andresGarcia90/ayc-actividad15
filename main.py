@@ -10,6 +10,7 @@ import json
 import matrizador
 import time
 import bfs
+import Kruskal
 
 class Grafo:
     class Pesado:
@@ -27,11 +28,6 @@ class Grafo:
             url += "&conexo=1"
         r = requests.get(url)
         self.grafo = json.loads(r.text)
-        #r_aux = '{"nodos": [0,1,2,3,4],"arcos": [[[0,1],10], [[0,3],30], [[0,2],40], [[1,3],20], [[2,4],50], [[3,4],60]]}'
-        #self.grafo = json.loads(r_aux)
-        r_aux2 ='{"nodos":[0, 1, 2, 3, 4, 5, 6, 7, 8, 9],"arcos":[[[5, 6], 920], [[2, 3], 373], [[9, 0], 639], [[1, 2], 82], [[8, 6], 13], [[0, 1], 331], [[7, 8], 463], [[6, 7], 342], [[8, 9], 499], [[4, 5], 196]]}'
-        #r_aux2 ='{"nodos":[0, 1, 2, 3, 4, 5, 6, 7, 8, 9],"arcos":[[[9, 3], 424], [[7, 8], 74], [[7, 1], 402], [[1, 4], 678], [[6, 9], 205], [[0, 9], 152], [[9, 1], 538], [[2, 9], 431], [[3, 8], 978], [[2, 1], 662]]}'
-        self.grafo = json.loads(r_aux2)
         self.nodos = self.grafo['nodos']
         self.arcos = [self.Pesado(x) for x in self.grafo['arcos']]
 
@@ -43,8 +39,6 @@ class Grafo:
         self.nodos.append(x)
     def getJsonGrafo(self):
         return self.grafo
-
-#Grafo(nodo,arco,cond = False)
 
 grafo = Grafo(10,10)
 #grafo.addNode(5)
@@ -83,7 +77,7 @@ print("-------------------------------------------------")
 print("")
 
 print("Grafo conexo para probrar 2b) 1)")
-#grafo = Grafo(10,15,True)
+grafo = Grafo(20,30,True)
 g1 = grafo.getJsonGrafo()
 m1 = matrizador.grafo_a_Lista_De_Adyacencia(g1)
 print("nodos: ")
@@ -96,10 +90,9 @@ print(m1)
 print("-------------------------------------------------")
 
 arcos = g1["arcos"]
-arbolMinimal = bfs.kruskal_2b_1(m1, arcos)
+arbolMinimal = Kruskal.kruskal_2b_1(m1, arcos)
 print("Arbol minimal")
 arbolMinimal.preorden(arbolMinimal.raiz,0)
-#print("g1 arc ",g1["arcos"])
 
 print("--- %s segundos ---" % (time.time()- start_time))
 """
