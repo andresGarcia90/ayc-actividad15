@@ -26,6 +26,7 @@ def MakeSet_SinHeuristica(x):
 #creo que aca no me queda otra que considerar pasar por parametro el conjunto de sets 
 #ademas asumo que el representativo de cualquier conjunto es el de la primer componente
 #Siempre va a retornar un set porq en el conjunto conj al menos va a haber un set con x solamente
+#nada eso
 def findSet_SinHeuristica(x,con):
     for arreglo in con:
         if (x in arreglo):
