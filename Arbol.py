@@ -49,11 +49,13 @@ class arbol:
         if (nodo2.padre == None):
             #print("combino la raiz")
             nodo2.padre = nodo
+            nodo2.peso_padre = peso
             if nodo.hijos == None:
                 nodo.hijos = []
             nodo.hijos.append(nodo2)
-            for n in arbol2.nodos:
-                self.nodos.append(n)
+            #for n in arbol2.nodos:
+            #    self.nodos.append(n)
+            self.nodos.extend(arbol2.nodos)
         else:
             #print("caigo aca")
             arbol2.invertirArbol(nodo2,peso)
@@ -93,7 +95,7 @@ class arbol:
         return nodo(dato,peso)
  
     def preorden(self,nodo,nivel):
-        if (nodo.padre != None):
+        if (nodo != self.raiz):
             print("nodo: ",nodo.dato, " padre: ",nodo.padre.dato , "peso al padre ",nodo.peso_padre," nivel ",nivel)
         else:
             print("nodo raíz: ",nodo.dato, " nivel ",nivel)

@@ -195,18 +195,20 @@ def kruskal_2b_1(listaAdyacencia,arcos):
                                 #print("lP ",listaPre)
                                 if arista[0] in listaPre:
                                     arb1 = arb
-                                    if(arb2 != None):
-                                        listaTree.remove(arb)
+                                    #if(arb2 != None):
+                                    #    listaTree.remove(arb2)
                                     listaPre.clear()
                                 if arista[1] in listaPre:
                                     arb2 = arb
-                                    if (arb1 != None):
-                                        listaTree.remove(arb)
+                                    #if (arb1 != None):
+                                    #    listaTree.remove(arb1)
                                     listaPre.clear()
                                 listaPre.clear()
                             if((arb1.size) >= (arb2.size)):
+                                listaTree.remove(arb2)
                                 arb1.combinarArbol(arista[0],arb2,arista[1],peso)
                             else:
+                                listaTree.remove(arb1)
                                 arb2.combinarArbol(arista[1],arb1,arista[0],peso)
             #print("lT ,",listaTree)
         #else:
