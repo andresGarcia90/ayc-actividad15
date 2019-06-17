@@ -10,6 +10,7 @@ import json
 import matrizador
 import time
 import bfs
+import Kruskal
 
 class Grafo:
     class Pesado:
@@ -89,7 +90,7 @@ print(m1)
 print("-------------------------------------------------")
 
 arcos = g1["arcos"]
-arbolMinimal = bfs.kruskal_2b_1(m1, arcos)
+arbolMinimal = Kruskal.kruskal_2b_1(m1, arcos)
 print("Arbol minimal")
 arbolMinimal.preorden(arbolMinimal.raiz,0)
 

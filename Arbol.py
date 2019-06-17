@@ -118,4 +118,3 @@ class arbol:
             for h in nodo.hijos:
                 self.preorden3(h)
         return lista
-
