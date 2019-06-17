@@ -94,27 +94,25 @@ def conexo_DS(nodos,arcos):
             #print ("listaDS despues de append res de findSet ",lAux)
     return lAux
 
-def kruskal_2b_1(nodos,arcos):
+def kruskal_2b_1(listaAdyacencia,arcos):
     listaDS = []
-    ingresar = nodos
-    print("ing",ingresar)
-    for nodo in nodos:
+    arcosAux = arcos.copy()
+    ingresar = list(range(len(listaAdyacencia)))
+    #print("ing",ingresar)
+    for nodo in ingresar:
         a = [DisjointSet.MakeSet(nodo)]
         listaDS.append(a)
-    arcos.sort(key=lambda tupla: tupla[1])
-    print("ordenados por peso ",arcos)
+    arcosAux.sort(key=lambda tupla: tupla[1])
+    #print("ordenados por peso ",arcosAux)
     tree = Arbol.arbol()
-    #print("a size ",arbol.size)
-    #print("arc size",len(arcos))
-    #print("nod size",len(nodos))
-    #if ((arbol.size < len(nodos)) & (len(arcos)!=0)):
-    #    print("SI")
     listaTree = []
     # len(ingresar)!=0 and listaTree != 1
-    while(len(arcos) != 0):
-        arista = arcos[0][0]
-        print("arista_POSTA ", arista)
+    while(len(arcosAux) != 0):
+        arista = arcosAux[0][0]
+        #print("arista_POSTA ", arista)
         cont = 0
+        indu = 0
+        indv = 0
         for lista in listaDS:
             for nodo in lista:
                 if (nodo.value == arista[0]):
@@ -142,73 +140,76 @@ def kruskal_2b_1(nodos,arcos):
             listaDS.append(res2)
             if(tree.size == 0):
                raiz = tree.insertarRaiz(arista[0])
-               peso = arcos[0][1]
+               peso = arcosAux[0][1]
                tree.insertar(raiz,arista[0],arista[1],peso)
                listaTree.append(tree)
                ingresar.remove(arista[0])
                ingresar.remove(arista[1])
-               print("ingresar ",ingresar)
+               #print("ingresar ",ingresar)
             else:
                 #print("OJO")
                 if ((arista[0] in ingresar) & (arista[1] in ingresar)):
-                    print("CASO 0")
+                    #print("CASO 0")
                     tree = Arbol.arbol()
                     raiz = tree.insertarRaiz(arista[0])
-                    peso = arcos[0][1]
+                    peso = arcosAux[0][1]
                     tree.insertar(raiz,arista[0],arista[1],peso)
                     listaTree.append(tree)
                     ingresar.remove(arista[0])
                     ingresar.remove(arista[1])
-                    print("ingresar ",ingresar)
+                    #print("ingresar ",ingresar)
+                    #print("termina caso 0 t: ",len(listaTree))
                 else: 
                     if ((arista[0] in ingresar) & (arista[1] not in ingresar)):
-                        print("CASO 1")
+                        #print("CASO 1")
                         for arb in listaTree:
                             listaPre = arb.preorden2(arb.raiz)
                             if arista[1] in listaPre:
-                                peso = arcos[0][1]
+                                peso = arcosAux[0][1]
                                 arb.insertar(arb.raiz,arista[1],arista[0],peso)
-                                print("ingresar ",ingresar)
-                                print("arista[0] ",arista[0])
+                                #print("ingresar ",ingresar)
+                                #print("arista[0] ",arista[0])
                                 ingresar.remove(arista[0])
                                 listaPre.clear()
                                 break
                     else:
                         if ((arista[0] not in ingresar) & (arista[1] in ingresar)):
-                            print("CASO 2")
+                            #print("CASO 2")
                             for arb in listaTree:
                                 listaPre = arb.preorden2(arb.raiz)
                                 if arista[0] in listaPre:
-                                    print("ingresar ",ingresar)
-                                    peso = arcos[0][1]
+                                    #print("ingresar ",ingresar)
+                                    peso = arcosAux[0][1]
                                     arb.insertar(arb.raiz,arista[0],arista[1],peso)
                                     ingresar.remove(arista[1])
                                     listaPre.clear()
                                     break
                         else:
                             # COMENTARIO: ((arista[0] not in ingresar) & (arista[1] not in ingresar)):
-                            print("CASO 3")
+                            #print("CASO 3")
+                            arb2 = None
+                            arb1 = None
+                            peso = arcosAux[0][1]
                             for arb in listaTree:
                                 listaPre = arb.preorden2(arb.raiz)
+                                #print("lP ",listaPre)
                                 if arista[0] in listaPre:
-                                    peso = arcos[0][1]
-                                    arb.insertar(arb.raiz,arista[0],arista[1],peso)
-                                    #ingresar.remove(arista[1])
+                                    arb1 = arb
+                                    if(arb2 != None):
+                                        listaTree.remove(arb)
                                     listaPre.clear()
-                                    break
-        else:
-            print("CASO 4")
-            # for arb in listaTree:
-            #     listaPre = arb.preorden2(arb.raiz)
-            #     if arista[0] in listaPre:
-            #         peso = arcos[0][1]
-            #         arb.insertar(arb.raiz,arista[0],arista[1],peso)
-            #         #ingresar.remove(arista[1])
-            #         listaPre.clear()
-            #         break                          
-        arcos.remove(arcos[0])
-    #print(listaTree)
-    for arb in listaTree:
-        tree.preorden(arb.raiz,0)
-    #arbol.preorden(arbol.raiz,0)
-    return arcos
+                                if arista[1] in listaPre:
+                                    arb2 = arb
+                                    if (arb1 != None):
+                                        listaTree.remove(arb)
+                                    listaPre.clear()
+                                listaPre.clear()
+                            if((arb1.size) >= (arb2.size)):
+                                arb1.combinarArbol(arista[0],arb2,arista[1],peso)
+                            else:
+                                arb2.combinarArbol(arista[1],arb1,arista[0],peso)
+            #print("lT ,",listaTree)
+        #else:
+            #print("CASO 4")
+        arcosAux.remove(arcosAux[0])
+    return listaTree[0]

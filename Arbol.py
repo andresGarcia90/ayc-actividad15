@@ -35,18 +35,19 @@ class arbol:
                 for h in nodo.hijos:
                     self.insertar(h,padre,dato,peso)
 
-    def combinarArbol(self, dato1, arbol2, dato2):
+    def combinarArbol(self, dato1, arbol2, dato2,peso):
         #asumo que los dos arboles tienen los datos
         nodo1 = self.obtenerNodo(dato1)
         nodo2 = arbol2.obtenerNodo(dato2)
-        print("combinarArbol: nodo1", nodo1," nodo2 ",nodo2)
-        self._combinarArbol(nodo1,arbol2,nodo2)
+        #print("combinarArbol: nodo1", nodo1," nodo2 ",nodo2)
+        self._combinarArbol(nodo1,arbol2,nodo2,peso)
+        self.size = self.size + arbol2.size
 
 
 
-    def _combinarArbol(self,nodo,arbol2,nodo2):
+    def _combinarArbol(self,nodo,arbol2,nodo2,peso):
         if (nodo2.padre == None):
-            print("combino la raiz")
+            #print("combino la raiz")
             nodo2.padre = nodo
             if nodo.hijos == None:
                 nodo.hijos = []
@@ -54,38 +55,37 @@ class arbol:
             for n in arbol2.nodos:
                 self.nodos.append(n)
         else:
-            print("caigo aca")
-            arbol2.invertirArbol(nodo2)
+            #print("caigo aca")
+            arbol2.invertirArbol(nodo2,peso)
             if nodo.hijos == None:
                 nodo.hijos = []
             nodo.hijos.append(nodo2)
-            nodo2.padre = nodo
-            for n in arbol2.nodos:
-                self.nodos.append(n)
+            nodo2.padre = nodo              
+            self.nodos.extend(arbol2.nodos)
             
 
-    def invertirArbol(self,nodo):
+    def invertirArbol(self,nodo,peso):
         if nodo.padre != None:
             nodoPadre = nodo.padre
             if nodo.hijos == None:
                 nodo.hijos = []
             nodo.hijos.append(nodoPadre)
             nodo.padre = None
-            self.invertirArbol(nodoPadre)
+            self.invertirArbol(nodoPadre,peso)
             nodoPadre.padre = nodo
+            #actualizar peso
+            nodoPadre.peso_padre = nodo.peso_padre
+            nodo.peso_padre = peso
             nodoPadre.hijos.remove(nodo)
-            self.raiz = nodo
+            self.raiz = nodo      
         
     def obtenerNodo(self,dato):
         for n in self.nodos:
             if(n.dato == dato):
                 return n 
         
-
     def obtenerRaiz(self):
         return self.raiz
-
-    
 
     def agregarNodo(self, dato, peso):
         # crea un nuevo nodo y lo devuelve
@@ -93,7 +93,10 @@ class arbol:
         return nodo(dato,peso)
  
     def preorden(self,nodo,nivel):
-        print("nodo: ",nodo.dato, " padre: ",nodo.padre ," nivel ",nivel)
+        if (nodo.padre != None):
+            print("nodo: ",nodo.dato, " padre: ",nodo.padre.dato , "peso al padre ",nodo.peso_padre," nivel ",nivel)
+        else:
+            print("nodo raíz: ",nodo.dato, " nivel ",nivel)
         if(nodo.hijos != None):
             for h in nodo.hijos:
                 self.preorden(h,nivel+1)
@@ -105,9 +108,10 @@ class arbol:
                 self.preorden2(h)
         return lista
 
+    def preorden3(self,nodo,lista = []):
+        lista.append(nodo)
+        if(nodo.hijos != None):
+            for h in nodo.hijos:
+                self.preorden3(h)
+        return lista
 
-
-
-
-# listaPre = arbol.preorden2(arbol.raiz)
-# print(listaPre)
