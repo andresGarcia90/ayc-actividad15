@@ -1,5 +1,6 @@
 import Arbol
 import DisjointSet
+import Heap
 
 
 #algo mas para probar
@@ -119,6 +120,87 @@ def kruskal_con_conjunto(nodos,arcos):
     print("retorno esto?",t_list[0].preorden(t_list[0].obtenerRaiz(),0))
 
     
+
+def kruskal_con_heap(nodos,arcos):
+    h = Heap.BinHeap()
+    h.buildHeap(arcos)
+    #creo una lista de arboles
+    t_list = []
+    #Obtengo el total de nodos
+    nodos_len = len(nodos)
+    
+    i = 0
+
+    #creo los conjuntos disjuntos de nodos
+    listaDS = []
+    for nodo in nodos:
+        a = DisjointSet.MakeSet(nodos[i])
+        i=i+1
+        listaDS.append(a)
+
+    listaDS_aux = listaDS.copy()
+
+    i = 0
+    while ( h.size() > 0):
+        arco = h.delMin()
+        print("arco", arco[0][0], arco[0][1])
+        u = buscarNodo(listaDS_aux,arco[0][0])
+        v = buscarNodo(listaDS_aux,arco[0][1]) 
+        u_conjunto = DisjointSet.findSet(u)
+        v_conjunto = DisjointSet.findSet(v)
+        if u_conjunto != v_conjunto:
+            uv_conjunto = DisjointSet.joinSet(u_conjunto,v_conjunto)
+            #caso de la raiz
+            if (len(t_list) == 0):
+                t = Arbol.arbol()
+                aux = t.insertarRaiz(u.value)
+                t.insertar(t.obtenerRaiz(),u.value,v.value,1)
+                i=i+2
+                t_list.append(t)
+            #caso en que se inserto un elemento
+            else:
+                #busco si en la lista hay un arbol que contiene a los nodos.
+                arbol_nuevo_u = buscarNodosArboles(t_list,u)
+                arbol_nuevo_v = buscarNodosArboles(t_list,v)
+                #Encontre un arbol de la lista que tiene al nodo
+                if arbol_nuevo_u != None and arbol_nuevo_v != None:
+                    nodo_aux_u = arbol_nuevo_u.obtenerNodo(u.value)
+                    nodo_aux_v = arbol_nuevo_v.obtenerNodo(v.value)
+                    #combinamos el arbol
+                    arbol_nuevo_u.combinarArbol(nodo_aux_u.dato,arbol_nuevo_v,nodo_aux_v.dato,1)
+                    i = i+1
+                    t_list.remove(arbol_nuevo_v)
+                else:
+                    if(arbol_nuevo_u != None):
+                        nodo_aux_u = arbol_nuevo_u.obtenerNodo(u.value)
+                        arbol_nuevo_u.insertar(arbol_nuevo_u.obtenerRaiz(), nodo_aux_u.dato, v.value, 1)
+                        i = i+1
+                        print("nuevo Arbol",arbol_nuevo_u)
+                    else:
+                        if arbol_nuevo_v != None:
+                            nodo_aux_v = arbol_nuevo_v.obtenerNodo(v.value)
+                            arbol_nuevo_v.insertar(arbol_nuevo_v.obtenerRaiz(), nodo_aux_v.dato, u.value, 1)
+                            i = i+1
+                            print("nuevo Arbol",arbol_nuevo_v)
+                        else:
+                            #Caso en que no encontre arbol
+                            t = Arbol.arbol()
+                            aux = t.insertarRaiz(u.value)
+                            t.insertar(t.obtenerRaiz(),u.value,v.value,1)
+                            i=i+2
+                            t_list.append(t)
+            listaDS.append(uv_conjunto)
+            listaDS.remove(v_conjunto)
+            listaDS.remove(u_conjunto)
+
+    print("tlist", len(t_list))
+    print("retorno esto?",t_list[0].preorden(t_list[0].obtenerRaiz(),0))
+
+
+
+
+
+
 
     
                 
@@ -252,4 +334,4 @@ nodos =  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
 arcos = [[[16, 14], 625], [[19, 0], 666], [[2, 3], 235], [[17, 8], 84], [[18, 19], 678], [[14, 7], 540], [[1, 2], 349], [[15, 8], 304], [[14, 15], 588], [[13, 7], 282], [[5, 6], 413], [[6, 7], 481], [[13, 14], 410], [[0, 1], 151], [[17, 18], 220], [[8, 9], 428], [[9, 10], 767], [[10, 11], 654], [[15, 16], 232], [[11, 12], 736], [[4, 14], 979], [[3, 4], 250], [[19, 4], 375], [[17, 4], 440], [[7, 8], 997], [[4, 5], 654], [[5, 2], 530], [[14, 1], 518], [[12, 13], 509], [[8, 10], 381]]
 
 
-kruskal_con_conjunto(nodos, arcos)
+kruskal_con_heap(nodos, arcos)
