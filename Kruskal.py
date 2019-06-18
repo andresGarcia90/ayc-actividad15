@@ -1,6 +1,10 @@
 import Arbol
 import DisjointSet
 
+
+#algo mas para probar
+
+
 def agregarElementoLista(lista, elemento):
     tope = len(lista)
     i = 0
