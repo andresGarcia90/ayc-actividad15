@@ -155,8 +155,6 @@ print("                                            TABLA DE RESULTADOS")
 print("")
 tabla.imprimir_tabla1()
 
-print("")
-print("-------------------------------------------------")
 grafo_1 = Grafo(10,20,True)
 grafo_2 = Grafo(150,1000,True)
 grafo_3 = Grafo(200,3000,True)
@@ -180,7 +178,7 @@ for g in grafos:
 
     print("Obteniendo árbol minimal Disjoint Set sin Heurísticas..")
     start_time_dssh = time.time()   
- !!!!!   arbol_minimal_DS_sin_H = Kruskal.kruskal_2b_1(m1, arcos)
+    arbol_minimal_DS_sin_H = Kruskal.kruskal_2b_2(m1, arcos)
     end_time_dssh = time.time()
     #arbol_minimal_DS_sin_H.preorden(arbol_minimal_DS_sin_H.raiz,0)
 
@@ -197,7 +195,7 @@ for g in grafos:
     #arbol_minimal_heap.preorden(arbol_minimal_heap.raiz, 0)
     
 
-    tabla.insertar_tabla2(indice, len(g.nodos),len(g.arcos),"sí","{0:.10f}".format(end_time_conjunto-start_time_conjunto), "{0:.10f}".format(end_time_minHeap-start_time_minHeap),"{0:.10f}".format(end_time_dsch-start_time_dsch),"{0:.10f}".format(00000))
+    tabla.insertar_tabla2(indice, len(g.nodos),len(g.arcos),"sí","{0:.10f}".format(end_time_conjunto-start_time_conjunto), "{0:.10f}".format(end_time_minHeap-start_time_minHeap),"{0:.10f}".format(end_time_dsch-start_time_dsch),"{0:.10f}".format(end_time_dssh-start_time_dssh))
     indice = indice + 1
 print("")
 print("")
