@@ -41,11 +41,11 @@ def grafo_a_Matriz_de_Adyacencia(grafo, peso = False):
     n = len(grafo.nodos)
     matrizAdy = [[0] * n for i in range(n)]
     if (peso == False):
-        for arc in grafo.arcos:
+        for arc in grafo.arcos:                                 #O(arcos) , por cada (u,v) de arco inserto un 1 en el i,j de la matriz
             matrizAdy[arc.arco[0]][arc.arco[1]] = 1
             matrizAdy[arc.arco[1]][arc.arco[0]] = 1
     else:
-        for arc in grafo.arcos:
+        for arc in grafo.arcos:                                 #O(arcos) , por cada (u,v) de arco inserto el peso del arco en el i,j de la matriz
             matrizAdy[arc.arco[0]][arc.arco[1]] = arc.peso
             matrizAdy[arc.arco[1]][arc.arco[0]] = arc.peso
     return matrizAdy

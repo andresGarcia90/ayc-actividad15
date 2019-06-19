@@ -1,3 +1,5 @@
+
+#esta clase se implemento para generar una tabla de visualizacion de datos de manera ordenada.
 class Tabla:
     def __init__(self):
         self.head = ["n° Grafo", "Nodos", "Arcos", "Flag-conexo", "  BFS   ", "Disjoin-set"]
