@@ -5,7 +5,7 @@
 
 from collections import deque
 import queue
-import DisjointSet
+import DisjointSetHeuristicas
 import Arbol
 
 def bfs_completo(matriz,nodos):
@@ -36,60 +36,47 @@ def bfs(u, matriz, blancos):
 def conexo_DS(nodos,arcos):
     listaDS = []
     for nodo in nodos:
-        a = [DisjointSet.MakeSet(nodo)]
+        a = [DisjointSetHeuristicas.MakeSet(nodo)]
         listaDS.append(a)
-    #print("listaDS antes de find set ",listaDS)
-    #lAux = []
-    #for lista in listaDS:
-       # l.append([nodo.value])
-       # l = [nodo.value for nodo in lista]
-       # lAux.append(l)
-    #print ("listaDS antes de findSet ",lAux)
     for arco in arcos:
-        #print("antes de findset")
-        #print("arco u ",arco.getArco()[0])
-        #print("arco v ",arco.getArco()[1])
-        cont = 0
-        for lista in listaDS:
-            for nodo in lista:
-                #print("nodo en lista ",nodo.value)
+        indu = 0
+        indv = 0
+        indicesEncontrados = False
+        indice = 0
+        nodoUencontrado = False
+        nodoVencontrado = False
+        while ((indice < len(listaDS)) & (indicesEncontrados == False)):
+            j = 0
+            while (j < len(listaDS[indice])):
+                nodo = listaDS[indice][j]
                 if (nodo.value == arco.getArco()[0]):
-                    #print("JEJEJEJE, encontre u")
-                    indu = cont
+                    indu = indice
+                    nodoUencontrado = False
                 else:
                     if (nodo.value == arco.getArco()[1]):
-                        #print("JEJEJEJE, encontre v")
-                        indv = cont
-            cont = cont + 1
-        #print("indice nodo u en listaDS",indu)
-        #print("indice nodo v en listaDS",indv)
-        #print("nodo u ",listaDS[indu])
-        #print("nodo v ",listaDS[indv])
-        representante_u = DisjointSet.findSet(listaDS[indu][0])
-        representante_v = DisjointSet.findSet(listaDS[indv][0])
-        #print("despues de findSet")
-        #print("nodo u representante",u)
-        #print("nodo v representante",v)
-        #print("u v ",u,v)
+                        indv = indice
+                        nodoVencontrado = False
+                j = j+1
+                indicesEncontrados = nodoUencontrado & nodoVencontrado
+            indice = indice + 1
+        u = listaDS[indu][0]
+        v = listaDS[indv][0]
+        representante_u = DisjointSetHeuristicas.findSet(u)
+        representante_v = DisjointSetHeuristicas.findSet(v)
         if (representante_u != representante_v):
-            DisjointSet.joinSet(representante_u,representante_v)
-            res2 = []
-            for nodo in listaDS[indu]:
-                res2.append(nodo)
-            for nodo in listaDS[indv]:
-                res2.append(nodo)
-            #print(res2)
+            DisjointSetHeuristicas.union(u,v)
+            nuevoConjuntoDisjunto = []
+            nuevoConjuntoDisjunto.extend(listaDS[indu])
+            nuevoConjuntoDisjunto.extend(listaDS[indv])
             if (indu < indv):
                 listaDS.remove(listaDS[indu])
                 listaDS.remove(listaDS[indv-1])
             else:
                 listaDS.remove(listaDS[indv])
                 listaDS.remove(listaDS[indu-1])
-            listaDS.append(res2)
-            #print("listaDS despues de append res de find set ",listaDS)
+            listaDS.append(nuevoConjuntoDisjunto)
             lAux = []
             for lista in listaDS:
                 l = [nodo.value for nodo in lista]
                 lAux.append(l)
-            #print ("listaDS despues de append res de findSet ",lAux)
     return lAux

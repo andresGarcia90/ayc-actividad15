@@ -1,19 +1,27 @@
 import Nodo
 
-def MakeSet(x): #x valor
-    return Nodo.Nodo(x)
+def MakeSet_SinHeuristica(x):
+    return [x]
 
-def findSet(x): #x nodo
-    if (x.padre != x):
-        x.padre = findSet(x.padre)
-    return x.padre
+#creo que aca no me queda otra que considerar pasar por parametro el conjunto de sets 
+#ademas asumo que el representativo de cualquier conjunto es el de la primer componente
+#Siempre va a retornar un set porq en el conjunto conj al menos va a haber un set con x solamente
+#nada eso
+def findSet_SinHeuristica(x,con):
+    for arreglo in con:
+        if (x in arreglo):
+            return arreglo[0]
 
-def joinSet(x,y):
-    if(x.profundidad < y.profundidad):
-        y.profundidad +=1
-        x.padre = y
-        return y
-    else:
-        x.profundidad +=1
-        y.padre = x
-        return x
+#este metodo recibe dos sets [] y el conjunto de sets con
+def union_SinHeuristica(x,y,con):
+    for item in y:
+        #x.append(item)
+        x[len(x):]=item
+    
+    nuevo_con = []
+    for item in con:
+        if(item != y):
+            nuevo_con[len(nuevo_con):]=item #agrego todos los conjuntos a un nuevo conjunto de conjuntos y 
+    con = nuevo_con                         #actualizo el conjunto de conjuntos a nuevo conjunto de conjuntos
+    
+
