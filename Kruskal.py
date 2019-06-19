@@ -39,6 +39,12 @@ def buscarNodosArboles(t_list,u):
         if arbol.obtenerNodo(u.value):
             return arbol
     return None 
+
+def buscarNodosArboles_sin_nodo(t_list,u):
+    for arbol in t_list:
+        if arbol.obtenerNodo(u):
+            return arbol
+    return None
         
 
 def kruskal_con_conjunto(nodos,arcos):
@@ -347,30 +353,30 @@ def kruskal_2b_2(listaAdyacencia,arcos):
             j = 0
             while (j < len(listaDS[indice])):
                 nodo = listaDS[indice][j]
-                if (nodo.value == arista[0]):
+                if (nodo == arista[0]):
                     indu = indice
                     nodoUencontrado = False
                 else:
-                    if (nodo.value == arista[1]):
+                    if (nodo == arista[1]):
                         indv = indice
                         nodoVencontrado = False
                 j = j+1
                 indicesEncontrados = nodoUencontrado & nodoVencontrado
             indice = indice + 1
-        representante_u = DisjointSet.findSet(listaDS[indu][0])
-        representante_v = DisjointSet.findSet(listaDS[indv][0])
+        representante_u = disjoinSet_SinHeuristicas.findSet_SinHeuristica(listaDS[indu][0],listaDS)
+        representante_v = disjoinSet_SinHeuristicas.findSet_SinHeuristica(listaDS[indv][0],listaDS)
         if (representante_u != representante_v):
-            DisjointSet.joinSet(representante_u,representante_v)
-            nuevoConjuntoDisjunto = []
-            nuevoConjuntoDisjunto.extend(listaDS[indu])
-            nuevoConjuntoDisjunto.extend(listaDS[indv])
-            if (indu < indv):
-                listaDS.remove(listaDS[indu])
-                listaDS.remove(listaDS[indv-1])
-            else:
-                listaDS.remove(listaDS[indv])
-                listaDS.remove(listaDS[indu-1])
-            listaDS.append(nuevoConjuntoDisjunto)
+            listaDS = disjoinSet_SinHeuristicas.union_SinHeuristica(representante_u,representante_v,listaDS)
+            # nuevoConjuntoDisjunto = []
+            # nuevoConjuntoDisjunto.extend(listaDS[indu])
+            # nuevoConjuntoDisjunto.extend(listaDS[indv])
+            # if (indu < indv):
+            #     listaDS.remove(listaDS[indu])
+            #     listaDS.remove(listaDS[indv-1])
+            # else:
+            #     listaDS.remove(listaDS[indv])
+            #     listaDS.remove(listaDS[indu-1])
+            # listaDS.append(nuevoConjuntoDisjunto)
             peso = arcosAux[0][1]
             if(tree.size == 0):
                raiz = tree.insertarRaiz(arista[0])
@@ -390,19 +396,19 @@ def kruskal_2b_2(listaAdyacencia,arcos):
                 else: 
                     if ((arista[0] in porIngresar) & (arista[1] not in porIngresar)):
                         #arco = [u,v], u no fue insertado en el árbol, v sí
-                        arb = buscarNodosArboles(listaTree,representante_v)
+                        arb = buscarNodosArboles_sin_nodo(listaTree,representante_v)
                         arb.insertar(arb.raiz,arista[1],arista[0],peso)
                         porIngresar.remove(arista[0])
                     else:
                         if ((arista[0] not in porIngresar) & (arista[1] in porIngresar)):
                             #arco = [u,v], v no fue insertado en el árbol, u sí
-                            arb = buscarNodosArboles(listaTree,representante_u)
+                            arb = buscarNodosArboles_sin_nodo(listaTree,representante_u)
                             arb.insertar(arb.raiz,arista[0],arista[1],peso)
                             porIngresar.remove(arista[1])
                         else:
                             #arco = [u,v], u y v fueron insertados en el árbol
-                            arb1 = buscarNodosArboles(listaTree,representante_u)
-                            arb2 = buscarNodosArboles(listaTree,representante_v)
+                            arb1 = buscarNodosArboles_sin_nodo(listaTree,representante_u)
+                            arb2 = buscarNodosArboles_sin_nodo(listaTree,representante_v)
                             if((arb1.size) >= (arb2.size)):
                                 listaTree.remove(arb2)
                                 arb1.combinarArbol(arista[0],arb2,arista[1],peso)

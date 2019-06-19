@@ -95,7 +95,7 @@ print(m1)
 print("-------------------------------------------------")
 
 arcos = g1["arcos"]
-arbolMinimal = Kruskal.kruskal_2b_1(m1, arcos)
+arbolMinimal = Kruskal.kruskal_2b_2(m1, arcos)
 print("Arbol minimal utilizando Disjoint Set con Heurísticas:")
 arbolMinimal.preorden(arbolMinimal.raiz,0)
 
