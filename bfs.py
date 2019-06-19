@@ -8,29 +8,31 @@ import queue
 import DisjointSetHeuristicas
 import Arbol
 
+#metodo que realiza el recorrido bfs y retorna un conjunto con el/los arboles resultantes
 def bfs_completo(matriz,nodos):
-    blancos = [False] * len(nodos)
-    foresta = []
-    for u in nodos:
-        if(blancos[u] == False):
-            arbol = bfs(u,matriz,blancos)
-            foresta.append(arbol)
-    return foresta
+    blancos = [False] * len(nodos)      #marcamos todos los nodos como blancos
+    foresta = []                        #inicializamos un arreglo para almacenar la foresta
+    for u in nodos:                     #por cada nodo O(n)
+        if(blancos[u] == False):            #si no esta marcado como blanco
+            arbol = bfs(u,matriz,blancos)   #realizamos un recorrido bfs
+            foresta.append(arbol)           #almacenamos el resultado
+    return foresta                          #de esta manera tendremos mas de un arbol en foresta si son disconexos
 
+#este metodo calcula el recorrido bfs a partir de un nodo dado, una matriz de todos los nodos y una cola de nodos blancos
 def bfs(u, matriz, blancos):
-    cola = queue.Queue()
-    blancos[u] = True
-    cola.put(u)
-    pertenecientes = []
+    cola = queue.Queue()                #creamos una cola
+    blancos[u] = True                   #marcamos el nodo seleccionado como blanco
+    cola.put(u)                         #lo ingresamos a la cola
+    pertenecientes = []                 #creamos una lista para ir almacenando nodos recorridos a partir del inicial(arbol resultante)
     
-    while (not cola.empty()):
-        actual = cola.get()
-        pertenecientes.append(actual)
-        if(actual in matriz):
-            for v in matriz.get(actual):
-                if(blancos[v]==False):
-                    blancos[v] = True
-                    cola.put(v)
+    while (not cola.empty()):           #mientras la cola no este vacia
+        actual = cola.get()                 #obtenemos el siguiente de la cola
+        pertenecientes.append(actual)       #agregamos el nodo actual a pertenecientes
+        if(actual in matriz):               #si el actual esta en la matriz
+            for v in matriz.get(actual):    #por cada nodo adyacente al actual
+                if(blancos[v]==False):      #si el nodo adyacente no es blanco
+                    blancos[v] = True       #lo marcamos como blanco
+                    cola.put(v)             #lo añadimos a la cola
     return pertenecientes
 
 def conexo_DS(nodos,arcos):

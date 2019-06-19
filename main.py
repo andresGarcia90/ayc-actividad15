@@ -36,27 +36,27 @@ class Grafo:
         self.arcos = [self.Pesado(x) for x in self.grafo['arcos']]
 
     def getPrimerArco(self):
-        return grafo.arcos[0].arco
+        return self.arcos[0].arco
     def getPesoPrimerArco(self):
-        return grafo.arcos[0].peso
+        return self.arcos[0].peso
     def addNode(self,x):
         self.nodos.append(x)
     def getJsonGrafo(self):
         return self.grafo
 
 tabla = Tabla.Tabla()
-grafo = Grafo(10,10)
+#grafo = Grafo(10,10)
 #grafo.addNode(5)
 #grafo.addNode(6)
 #grafo.addNode(7)
-start_time = time.time()
-g1 = grafo.getJsonGrafo()
-m1 = matrizador.grafo_a_Lista_De_Adyacencia(g1)
+#start_time = time.time()
+#g1 = grafo.getJsonGrafo()
+#m1 = matrizador.grafo_a_Lista_De_Adyacencia(g1)
 #m2 = matrizador.grafo_a_Lista_De_Adyacencia_Catedra(grafo)
 
-print("nodos: ")
-print(g1["nodos"])
-print("-------------------------------------------------")
+#print("nodos: ")
+#print(g1["nodos"])
+#print("-------------------------------------------------")
 #print(m1)
 #print("-------------------------------------------------")
 #print("")
@@ -64,96 +64,143 @@ print("-------------------------------------------------")
 #print("-------------------------------------------------")
 #print("")
 #m3 = matrizador.grafo_a_Matriz_de_Adyacencia(grafo,True)
-print("Lista adyacencia del grafo")
-print(m1)
-print("-------------------------------------------------")
-print("")
+# print("Lista adyacencia del grafo")
+# print(m1)
+# print("-------------------------------------------------")
+# print("")
 
-resultado = bfs.bfs_completo(m1,grafo.nodos)
-print("Foresta de arboles (1a)")
-print(resultado)
-print("-------------------------------------------------")
-print("")
+# resultado = bfs.bfs_completo(m1,grafo.nodos)
+# print("Foresta de arboles (1a)")
+# print(resultado)
+# print("-------------------------------------------------")
+# print("")
 
-resultado = bfs.conexo_DS(grafo.nodos, grafo.arcos)
-print("Componentes conexos con Disjoint Set (1b)")
-print(resultado)
-print("-------------------------------------------------")
-print("")
+# resultado = bfs.conexo_DS(grafo.nodos, grafo.arcos)
+# print("Componentes conexos con Disjoint Set (1b)")
+# print(resultado)
+# print("-------------------------------------------------")
+# print("")
 
-print("Grafo conexo para probrar 2b) 1)")
-grafo = Grafo(20,30,True)
-g1 = grafo.getJsonGrafo()
-m1 = matrizador.grafo_a_Lista_De_Adyacencia(g1)
-print("nodos: ")
-print(g1["nodos"])
-print("arcos: ")
-print(g1["arcos"])
-print("-------------------------------------------------")
-print("Lista adyacencia del grafo")
-print(m1)
-print("-------------------------------------------------")
+# print("Grafo conexo para probrar 2b) 1)")
+# grafo = Grafo(20,30,True)
+# g1 = grafo.getJsonGrafo()
+# m1 = matrizador.grafo_a_Lista_De_Adyacencia(g1)
+# print("nodos: ")
+# print(g1["nodos"])
+# print("arcos: ")
+# print(g1["arcos"])
+# print("-------------------------------------------------")
+# print("Lista adyacencia del grafo")
+# print(m1)
+# print("-------------------------------------------------")
 
-arcos = g1["arcos"]
-arbolMinimal = Kruskal.kruskal_2b_2(m1, arcos)
-print("Arbol minimal utilizando Disjoint Set con Heurísticas:")
-arbolMinimal.preorden(arbolMinimal.raiz,0)
+# arcos = g1["arcos"]
+# arbolMinimal = Kruskal.kruskal_2b_1(m1, arcos)
+# print("Arbol minimal utilizando Disjoint Set con Heurísticas:")
+# arbolMinimal.preorden(arbolMinimal.raiz,0)
 
-print("-------------------------------------------------")
-print("Arbol minimal utilizando un Heap invertido:")
-arbol_minimal_heap = Kruskal.kruskal_con_heap(grafo.nodos, arcos)
-arbol_minimal_heap.preorden(arbol_minimal_heap.raiz, 0)
+# print("-------------------------------------------------")
+# print("Arbol minimal utilizando un Heap invertido:")
+# arbol_minimal_heap = Kruskal.kruskal_con_heap(grafo.nodos, arcos)
+# arbol_minimal_heap.preorden(arbol_minimal_heap.raiz, 0)
 
-print("-------------------------------------------------")
-print("Arbol minimal utilizando un conjunto de arcos ordenados por su peso:")
-arbol_minimal_heap = Kruskal.kruskal_con_conjunto(grafo.nodos, arcos)
-arbol_minimal_heap.preorden(arbol_minimal_heap.raiz, 0)
-print("--- %s segundos ---" % (time.time()- start_time))
+# print("-------------------------------------------------")
+# print("Arbol minimal utilizando un conjunto de arcos ordenados por su peso:")
+# arbol_minimal_heap = Kruskal.kruskal_con_conjunto(grafo.nodos, arcos)
+# arbol_minimal_heap.preorden(arbol_minimal_heap.raiz, 0)
+#print("--- %s segundos ---" % (time.time()- start_time))
 """
 Generar varios grafos. 
 
 Realizar anÃ¡lisis empÃ­rico mediante timestamps.
 """
 
-print("")
-print("-------------------------------------------------")
-print("Prueba de Grafo G1<10,20>, G1<50,100>, G1<100,200>:")
-grafo_1 = Grafo(10,20,True)
-grafo_2 = Grafo(50,100,True)
-grafo_3 = Grafo(100,200,True)
-indice = 0
 
-grafos = [grafo_1,grafo_2,grafo_3]
+grafo_1 = Grafo(10,20)
+grafo_2 = Grafo(150,1000)
+grafo_3 = Grafo(200,3000)
+grafo_4 = Grafo(300,10000)
+grafo_5 = Grafo(400,1000)
+grafo_6 = Grafo(500,10000)
+indice = 1
+
+grafos = [grafo_1,grafo_2,grafo_3,grafo_4,grafo_5,grafo_6]
 resultados = []
 for g in grafos:
     g1 = g.getJsonGrafo()
     m1 = matrizador.grafo_a_Lista_De_Adyacencia(g1)
-    arcos = g1["arcos"]
-    print("pArbol minimal Disjoint Set con Heurísticas:")
-    start_time_dsch = time.time()   
-    Kruskal.kruskal_2b_1(m1, arcos)
-    arbolMinimal.preorden(arbolMinimal.raiz,0)
-    end_time_dsch = time.time()
-
-
-    print("Arbol minimal utilizando un Heap invertido:")
-    start_time_minHeap = time.time()   
-    arbol_minimal_heap = Kruskal.kruskal_con_heap(g.nodos, arcos)
-    arbol_minimal_heap.preorden(arbol_minimal_heap.raiz, 0)
-    end_time_minHeap = time.time()
-
-    print("Arbol minimal utilizando un conjunto de arcos ordenados por su peso:")
-    start_time_conjunto = time.time()   
-    arbol_minimal_heap = Kruskal.kruskal_con_conjunto(g.nodos, arcos)
-    arbol_minimal_heap.preorden(arbol_minimal_heap.raiz, 0)
-    end_time_conjunto = time.time()
-
-    tabla.insertar_tabla2(indice, len(g.nodos),len(g.arcos),"si","{0:.10f}".format(end_time_conjunto-start_time_conjunto), "{0:.10f}".format(end_time_minHeap-start_time_minHeap),"{0:.10f}".format(end_time_dsch-start_time_dsch),"{0:.10f}".format(00000))
-    
+    print("Ejecutando comprobaciones para ver si un grafo no-dirigido y pesado es conexo para el grafo %s de %s nodos con %s arcos:" %(indice,len(g.nodos),len(g.arcos)))
+    start_time_conexo_bfs = time.time() 
+    resultado1 = bfs.bfs_completo(m1,g.nodos)
+    end_time_conexo_bfs = time.time()
+    print("Comprobando con BFS..")
+    #print(resultado1)
+    start_time_conexo_ds = time.time()
+    resultado2 = bfs.conexo_DS(g.nodos, g.arcos)
+    end_time_conexo_ds = time.time()
+    print("Comprobando con Disjoint Set..")
+    #print(resultado2)
+    if ((len(resultado1) == 1) & (len(resultado2) == 1)):
+        flag = "sí"
+    else:
+        if (((len(resultado1) == 1) & (len(resultado2) != 1)) | ((len(resultado1) != 1) & (len(resultado2) == 1))):
+            flag = "REVISAR"
+        else:
+            flag = "no"
+    tabla.insertar_tabla1(indice,len(g.nodos),len(g.arcos),flag,"{0:.10f}".format(end_time_conexo_bfs-start_time_conexo_bfs),"{0:.10f}".format(end_time_conexo_ds-start_time_conexo_ds))
+    indice = indice + 1
 print("")
 print("")
 print("                                            TABLA DE RESULTADOS")
 print("")
+tabla.imprimir_tabla1()
 
+print("")
+print("-------------------------------------------------")
+grafo_1 = Grafo(10,20,True)
+grafo_2 = Grafo(150,1000,True)
+grafo_3 = Grafo(200,3000,True)
+grafo_4 = Grafo(300,10000,True)
+grafo_5 = Grafo(400,25000,True)
+grafo_6 = Grafo(500,50000,True)
+indice = 1
 
+grafos = [grafo_1,grafo_2,grafo_3,grafo_4,grafo_5,grafo_6]
+resultados = []
+for g in grafos:
+    g1 = g.getJsonGrafo()
+    m1 = matrizador.grafo_a_Lista_De_Adyacencia(g1)
+    print("Ejecutando algoritmo de Kruskal para el grafo %s de %s nodos con %s arcos:" %(indice,len(g.nodos),len(g.arcos)))
+    arcos = g1["arcos"]
+    print("Obteniendo árbol minimal Disjoint Set con Heurísticas..")
+    start_time_dsch = time.time()   
+    arbol_minimal_DS_con_H = Kruskal.kruskal_2b_1(m1, arcos)
+    end_time_dsch = time.time()
+    #arbol_minimal_DS_con_H.preorden(arbol_minimal_DS_con_H.raiz,0)
+
+    print("Obteniendo árbol minimal Disjoint Set sin Heurísticas..")
+    start_time_dssh = time.time()   
+ !!!!!   arbol_minimal_DS_sin_H = Kruskal.kruskal_2b_1(m1, arcos)
+    end_time_dssh = time.time()
+    #arbol_minimal_DS_sin_H.preorden(arbol_minimal_DS_sin_H.raiz,0)
+
+    print("Obteniendo árbol minimal utilizando un Heap invertido..")
+    start_time_minHeap = time.time()   
+    arbol_minimal_heap = Kruskal.kruskal_con_heap(g.nodos, arcos)
+    end_time_minHeap = time.time()
+    #arbol_minimal_heap.preorden(arbol_minimal_heap.raiz, 0)
+
+    print("Obteniendo árbol minimal utilizando un conjunto de arcos ordenados por su peso..")
+    start_time_conjunto = time.time()   
+    arbol_minimal_heap = Kruskal.kruskal_con_conjunto(g.nodos, arcos)
+    end_time_conjunto = time.time()
+    #arbol_minimal_heap.preorden(arbol_minimal_heap.raiz, 0)
+    
+
+    tabla.insertar_tabla2(indice, len(g.nodos),len(g.arcos),"sí","{0:.10f}".format(end_time_conjunto-start_time_conjunto), "{0:.10f}".format(end_time_minHeap-start_time_minHeap),"{0:.10f}".format(end_time_dsch-start_time_dsch),"{0:.10f}".format(00000))
+    indice = indice + 1
+print("")
+print("")
+print("                                            TABLA DE RESULTADOS")
+print("")
 tabla.imprimir_tabla2()

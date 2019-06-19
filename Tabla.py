@@ -1,8 +1,10 @@
+
+#esta clase se implemento para generar una tabla de visualizacion de datos de manera ordenada.
 class Tabla:
     def __init__(self):
         self.head = ["n° Grafo", "Nodos", "Arcos  ", "    Flag-conexo  ", "       BFS     ", "  Disjoin-set   "]
         self.head_2 = ["n° Grafo", "Nodos", " Arcos ", "Flag-conexo", "   Kruskal Arcos  ", "  Kruskal MinHeap  ", "  Kruskal c/h   ","  Kruskal s/h   "]
-        self.linea = 64
+        self.linea = 84
         self.linea_2 = 122
         self.datos = []
         self.datos_2 = []
