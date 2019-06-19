@@ -114,7 +114,13 @@ Generar varios grafos.
 
 Realizar anÃ¡lisis empÃ­rico mediante timestamps.
 """
-
+grafo_caminos = Grafo(20,30)
+g1 = grafo_caminos.getJsonGrafo()
+m1 = matrizador.grafo_a_Lista_De_Adyacencia(g1)
+arcos = g1["arcos"]
+arbolMinimal = Kruskal.kruskal_2b_2(m1, arcos)
+print("Arbol minimal utilizando Disjoint Set con Heurísticas:")
+arbolMinimal.preorden(arbolMinimal.raiz,0)
 
 grafo_1 = Grafo(10,20)
 grafo_2 = Grafo(150,1000)
