@@ -1,6 +1,6 @@
 import Arbol
-import DisjointSet
 import Heap
+import DisjointSetHeuristicas
 
 
 #algo mas para probar
@@ -55,7 +55,7 @@ def kruskal_con_conjunto(nodos,arcos):
     #creo los conjuntos disjuntos de nodos
     listaDS = []
     for nodo in nodos:
-        a = DisjointSet.MakeSet(nodo)
+        a = DisjointSetHeuristicas.MakeSet(nodo)
         listaDS.append(a)
 
     listaDS_aux = listaDS.copy()
@@ -66,10 +66,10 @@ def kruskal_con_conjunto(nodos,arcos):
         #print("arco", arco[0][0], arco[0][1])
         u = buscarNodo(listaDS_aux,arco[0][0])
         v = buscarNodo(listaDS_aux,arco[0][1]) 
-        u_conjunto = DisjointSet.findSet(u)
-        v_conjunto = DisjointSet.findSet(v)
+        u_conjunto = DisjointSetHeuristicas.findSet(u)
+        v_conjunto = DisjointSetHeuristicas.findSet(v)
         if u_conjunto != v_conjunto:
-            uv_conjunto = DisjointSet.joinSet(u_conjunto,v_conjunto)
+            uv_conjunto = DisjointSetHeuristicas.union(u,v)
             peso = arco[1]
             #caso de la raiz
             if (len(t_list) == 0):
@@ -129,7 +129,7 @@ def kruskal_con_heap(nodos,arcos):
     #creo los conjuntos disjuntos de nodos
     listaDS = []
     for nodo in nodos:
-        a = DisjointSet.MakeSet(nodo)
+        a = DisjointSetHeuristicas.MakeSet(nodo)
         listaDS.append(a)
 
     listaDS_aux = listaDS.copy()
@@ -140,10 +140,10 @@ def kruskal_con_heap(nodos,arcos):
         #print("arco", arco[0][0], arco[0][1])
         u = buscarNodo(listaDS_aux,arco[0][0])
         v = buscarNodo(listaDS_aux,arco[0][1]) 
-        u_conjunto = DisjointSet.findSet(u)
-        v_conjunto = DisjointSet.findSet(v)
+        u_conjunto = DisjointSetHeuristicas.findSet(u)
+        v_conjunto = DisjointSetHeuristicas.findSet(v)
         if u_conjunto != v_conjunto:
-            uv_conjunto = DisjointSet.joinSet(u_conjunto,v_conjunto)
+            uv_conjunto = DisjointSetHeuristicas.union(u,v)
             peso = arco[1]
             #caso de la raiz
             if (len(t_list) == 0):
@@ -203,7 +203,7 @@ def kruskal_2b_1(listaAdyacencia,arcos):
     arcosAux = arcos.copy()
     porIngresar = list(range(len(listaAdyacencia)))
     for nodo in porIngresar:
-        a = [DisjointSet.MakeSet(nodo)]
+        a = [DisjointSetHeuristicas.MakeSet(nodo)]
         listaDS.append(a)
     arcosAux.sort(key=lambda tupla: tupla[1])
     #print("ordenados por peso ",arcosAux)
@@ -231,10 +231,12 @@ def kruskal_2b_1(listaAdyacencia,arcos):
                 j = j+1
                 indicesEncontrados = nodoUencontrado & nodoVencontrado
             indice = indice + 1
-        representante_u = DisjointSet.findSet(listaDS[indu][0])
-        representante_v = DisjointSet.findSet(listaDS[indv][0])
+        u = listaDS[indu][0]
+        v = listaDS[indv][0]
+        representante_u = DisjointSetHeuristicas.findSet(u)
+        representante_v = DisjointSetHeuristicas.findSet(v)
         if (representante_u != representante_v):
-            DisjointSet.joinSet(representante_u,representante_v)
+            DisjointSetHeuristicas.union(u,v)
             nuevoConjuntoDisjunto = []
             nuevoConjuntoDisjunto.extend(listaDS[indu])
             nuevoConjuntoDisjunto.extend(listaDS[indv])
