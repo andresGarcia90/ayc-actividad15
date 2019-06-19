@@ -37,27 +37,27 @@ def bfs(u, matriz, blancos):
 
 def conexo_DS(nodos,arcos):
     listaDS = []
-    for nodo in nodos:
-        a = [DisjointSetHeuristicas.MakeSet(nodo)]
+    for nodo in nodos:                                      #O(n)
+        a = [DisjointSetHeuristicas.MakeSet(nodo)]          
         listaDS.append(a)
-    for arco in arcos:
+    for arco in arcos:                                      #O(a)
         indu = 0
         indv = 0
         indicesEncontrados = False
         indice = 0
         nodoUencontrado = False
         nodoVencontrado = False
-        while ((indice < len(listaDS)) & (indicesEncontrados == False)):
+        while ((indice < len(listaDS)) & (indicesEncontrados == False)):    #O(n)
             j = 0
             while (j < len(listaDS[indice])):
                 nodo = listaDS[indice][j]
                 if (nodo.value == arco.getArco()[0]):
                     indu = indice
-                    nodoUencontrado = False
+                    nodoUencontrado = True
                 else:
                     if (nodo.value == arco.getArco()[1]):
                         indv = indice
-                        nodoVencontrado = False
+                        nodoVencontrado = True
                 j = j+1
                 indicesEncontrados = nodoUencontrado & nodoVencontrado
             indice = indice + 1
@@ -78,7 +78,7 @@ def conexo_DS(nodos,arcos):
                 listaDS.remove(listaDS[indu-1])
             listaDS.append(nuevoConjuntoDisjunto)
             lAux = []
-            for lista in listaDS:
+            for lista in listaDS:                   #O(n)
                 l = [nodo.value for nodo in lista]
                 lAux.append(l)
     return lAux
