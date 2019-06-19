@@ -11,6 +11,7 @@ import matrizador
 import time
 import bfs
 import Kruskal
+import Tabla
 
 class Grafo:
     class Pesado:
@@ -18,6 +19,7 @@ class Grafo:
             self.arco = arcoPeso[0]
             self.peso = arcoPeso[1]
             self.grafo = None
+            self.tabla = None
             
         def getArco(self):
             return self.arco
@@ -42,6 +44,7 @@ class Grafo:
     def getJsonGrafo(self):
         return self.grafo
 
+tabla = Tabla.Tabla()
 grafo = Grafo(10,10)
 #grafo.addNode(5)
 #grafo.addNode(6)
@@ -111,3 +114,46 @@ Generar varios grafos.
 
 Realizar anÃ¡lisis empÃ­rico mediante timestamps.
 """
+
+print("")
+print("-------------------------------------------------")
+print("Prueba de Grafo G1<10,20>, G1<50,100>, G1<100,200>:")
+grafo_1 = Grafo(10,20,True)
+grafo_2 = Grafo(50,100,True)
+grafo_3 = Grafo(100,200,True)
+indice = 0
+
+grafos = [grafo_1,grafo_2,grafo_3]
+resultados = []
+for g in grafos:
+    g1 = g.getJsonGrafo()
+    m1 = matrizador.grafo_a_Lista_De_Adyacencia(g1)
+    arcos = g1["arcos"]
+    print("pArbol minimal Disjoint Set con Heurísticas:")
+    start_time_dsch = time.time()   
+    Kruskal.kruskal_2b_1(m1, arcos)
+    arbolMinimal.preorden(arbolMinimal.raiz,0)
+    end_time_dsch = time.time()
+
+
+    print("Arbol minimal utilizando un Heap invertido:")
+    start_time_minHeap = time.time()   
+    arbol_minimal_heap = Kruskal.kruskal_con_heap(g.nodos, arcos)
+    arbol_minimal_heap.preorden(arbol_minimal_heap.raiz, 0)
+    end_time_minHeap = time.time()
+
+    print("Arbol minimal utilizando un conjunto de arcos ordenados por su peso:")
+    start_time_conjunto = time.time()   
+    arbol_minimal_heap = Kruskal.kruskal_con_conjunto(g.nodos, arcos)
+    arbol_minimal_heap.preorden(arbol_minimal_heap.raiz, 0)
+    end_time_conjunto = time.time()
+
+    tabla.insertar_tabla2(indice, len(g.nodos),len(g.arcos),"si","{0:.10f}".format(end_time_conjunto-start_time_conjunto), "{0:.10f}".format(end_time_minHeap-start_time_minHeap),"{0:.10f}".format(end_time_dsch-start_time_dsch),"{0:.10f}".format(00000))
+    
+print("")
+print("")
+print("                                            TABLA DE RESULTADOS")
+print("")
+
+
+tabla.imprimir_tabla2()

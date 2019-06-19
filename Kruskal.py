@@ -60,7 +60,7 @@ def kruskal_con_conjunto(nodos,arcos):
     listaDS_aux = listaDS.copy()
 
     i = 0
-    while ( len(arcosOrdenados) > 0):
+    while ( len(listaDS) > 1 and len(arcosOrdenados) > 0):
         arco = obtenerPrimero(arcosOrdenados)
         indu = 0
         indv = 0
@@ -151,7 +151,7 @@ def kruskal_con_heap(nodos,arcos):
     listaDS_aux = listaDS.copy()
 
     i = 0
-    while ( h.size() > 0):
+    while ( h.size() > 0 and len(listaDS) > 1):
         arco = h.delMin()
         indu = 0
         indv = 0
@@ -242,7 +242,7 @@ def kruskal_2b_1(listaAdyacencia,arcos):
     #print("ordenados por peso ",arcosAux)
     tree = Arbol.arbol()
     listaTree = []
-    while(len(arcosAux) != 0):
+    while(len(arcosAux) != 0 and len(listaDS) > 1):
         arista = arcosAux[0][0]
         indu = 0
         indv = 0
@@ -335,7 +335,7 @@ def kruskal_2b_2(listaAdyacencia,arcos):
     #print("ordenados por peso ",arcosAux)
     tree = Arbol.arbol()
     listaTree = []
-    while(len(arcosAux) != 0):
+    while(len(arcosAux) != 0 and len(listaDS) > 1):
         arista = arcosAux[0][0]
         indu = 0
         indv = 0

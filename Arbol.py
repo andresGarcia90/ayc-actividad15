@@ -98,9 +98,9 @@ class arbol:
  
     def preorden(self,nodo,nivel):
         if (nodo != self.raiz):
-            print("nodo: ",nodo.dato, " padre: ",nodo.padre.dato , "peso al padre: ",nodo.peso_padre," nivel: ",nivel)
+            print("nodo: ",nodo.dato," "*(2-len(str(nodo.dato))), " padre: ",nodo.padre.dato ," "*(2-len(str(nodo.padre.dato))), "peso al padre: ",nodo.peso_padre," "*(3-len(str(nodo.peso_padre)))," nivel: ",nivel)
         else:
-            print("nodo raíz: ",nodo.dato, " nivel ",nivel)
+            print("raíz: ",nodo.dato," "*(3-len(str(nodo.dato))), " nivel ",nivel)
         if(nodo.hijos != None):
             for h in nodo.hijos:
                 self.preorden(h,nivel+1)

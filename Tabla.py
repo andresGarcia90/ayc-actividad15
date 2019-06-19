@@ -1,7 +1,7 @@
 class Tabla:
     def __init__(self):
         self.head = ["n° Grafo", "Nodos", "Arcos", "Flag-conexo", "  BFS   ", "Disjoin-set"]
-        self.head_2 = ["n° Grafo", "Nodos", "Arcos", "Flag-conexo", "Kruskal Arcos", "Kruskal MinHeap", "Kruskal c/h ","Kruskal s/h "]
+        self.head_2 = ["n° Grafo", "Nodos", "Arcos", "Flag-conexo", "  Kruskal Arcos ", "  Kruskal MinHeap", "  Kruskal c/h ","  Kruskal s/h "]
         self.linea = 64
         self.linea_2 = 103
         self.datos = []
@@ -49,21 +49,21 @@ class Tabla:
 
 
 
-#1era parte
-head = ["n° Grafo", "Nodos", "Arcos", "Flag-conexo", "  BFS   ", "Disjoin-set"]
+# #1era parte
+# head = ["n° Grafo", "Nodos", "Arcos", "Flag-conexo", "  BFS   ", "Disjoin-set"]
 
-datos = [[0,10,20,"si",True,True],[1,100,200,"si",False,False]]
+# datos = [[0,10,20,"si",True,True],[1,100,200,"si",False,False]]
 
-#2da Parte
-head_2 = ["n° Grafo", "Nodos", "Arcos", "Flag-conexo", "Kruskal Arcos", "Kruskal MinHeap", "Kruskal c/h ","Kruskal s/h "]
+# #2da Parte
+# head_2 = ["n° Grafo", "Nodos", "Arcos", "Flag-conexo", "Kruskal Arcos", "Kruskal MinHeap", "Kruskal c/h ","Kruskal s/h "]
 
-datos_2 = [[0,10,20,"si",0.11123,0.121345,0.123456,0.123456], [1,100,200,"si",123.11123,213.121345,123.123456,123.123456]]
+# datos_2 = [[0,10,20,"si",0.11123,0.121345,0.123456,0.123456], [1,100,200,"si",123.11123,213.121345,123.123456,123.123456]]
 
-t = Tabla.Tabla()
-t.insertar_tabla1(0,10,20,'si',True,True)
-t.insertar_tabla1(1,100,200,'si',False,False)
-t.insertar_tabla2(0,10,20,'si',0.11123,0.121345,0.123456,0.123456)
-t.insertar_tabla2(1,100,200,'si',123.11123,213.121345,123.123456,123.123456)
+# t = Tabla.Tabla()
+# t.insertar_tabla1(0,10,20,'si',True,True)
+# t.insertar_tabla1(1,100,200,'si',False,False)
+# t.insertar_tabla2(0,10,20,'si',0.11123,0.121345,0.123456,0.123456)
+# t.insertar_tabla2(1,100,200,'si',123.11123,213.121345,123.123456,123.123456)
 
-t.imprimir_tabla1()
-t.imprimir_tabla2()
+# t.imprimir_tabla1()
+# t.imprimir_tabla2()
