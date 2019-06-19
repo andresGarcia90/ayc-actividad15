@@ -1,9 +1,8 @@
 import Arbol
+import DisjointSet
+import disjoinSet_SinHeuristicas
 import Heap
 import DisjointSetHeuristicas
-
-
-#algo mas para probar
 
 
 def agregarElementoLista(lista, elemento):
@@ -237,6 +236,97 @@ def kruskal_2b_1(listaAdyacencia,arcos):
         representante_v = DisjointSetHeuristicas.findSet(v)
         if (representante_u != representante_v):
             DisjointSetHeuristicas.union(u,v)
+            nuevoConjuntoDisjunto = []
+            nuevoConjuntoDisjunto.extend(listaDS[indu])
+            nuevoConjuntoDisjunto.extend(listaDS[indv])
+            if (indu < indv):
+                listaDS.remove(listaDS[indu])
+                listaDS.remove(listaDS[indv-1])
+            else:
+                listaDS.remove(listaDS[indv])
+                listaDS.remove(listaDS[indu-1])
+            listaDS.append(nuevoConjuntoDisjunto)
+            peso = arcosAux[0][1]
+            if(tree.size == 0):
+               raiz = tree.insertarRaiz(arista[0])
+               tree.insertar(raiz,arista[0],arista[1],peso)
+               listaTree.append(tree)
+               porIngresar.remove(arista[0])
+               porIngresar.remove(arista[1])
+            else:
+                if ((arista[0] in porIngresar) & (arista[1] in porIngresar)):
+                    #arco = [u,v], u y v no fueron insertados en el árbol
+                    tree = Arbol.arbol()
+                    raiz = tree.insertarRaiz(arista[0])
+                    tree.insertar(raiz,arista[0],arista[1],peso)
+                    listaTree.append(tree)
+                    porIngresar.remove(arista[0])
+                    porIngresar.remove(arista[1])
+                else: 
+                    if ((arista[0] in porIngresar) & (arista[1] not in porIngresar)):
+                        #arco = [u,v], u no fue insertado en el árbol, v sí
+                        arb = buscarNodosArboles(listaTree,representante_v)
+                        arb.insertar(arb.raiz,arista[1],arista[0],peso)
+                        porIngresar.remove(arista[0])
+                    else:
+                        if ((arista[0] not in porIngresar) & (arista[1] in porIngresar)):
+                            #arco = [u,v], v no fue insertado en el árbol, u sí
+                            arb = buscarNodosArboles(listaTree,representante_u)
+                            arb.insertar(arb.raiz,arista[0],arista[1],peso)
+                            porIngresar.remove(arista[1])
+                        else:
+                            #arco = [u,v], u y v fueron insertados en el árbol
+                            arb1 = buscarNodosArboles(listaTree,representante_u)
+                            arb2 = buscarNodosArboles(listaTree,representante_v)
+                            if((arb1.size) >= (arb2.size)):
+                                listaTree.remove(arb2)
+                                arb1.combinarArbol(arista[0],arb2,arista[1],peso)
+                            else:
+                                listaTree.remove(arb1)
+                                arb2.combinarArbol(arista[1],arb1,arista[0],peso)
+        arcosAux.remove(arcosAux[0])
+    return listaTree[0]
+
+
+
+    
+def kruskal_2b_2(listaAdyacencia,arcos):
+    listaDS = []
+    arcosAux = arcos.copy()
+    porIngresar = list(range(len(listaAdyacencia)))
+    for nodo in porIngresar:
+        a = disjoinSet_SinHeuristicas.MakeSet_SinHeuristica(nodo)
+        listaDS.append(a)
+    arcosAux.sort(key=lambda tupla: tupla[1])
+    #print("ordenados por peso ",arcosAux)
+    tree = Arbol.arbol()
+    listaTree = []
+    while(len(arcosAux) != 0):
+        arista = arcosAux[0][0]
+        indu = 0
+        indv = 0
+        indicesEncontrados = False
+        indice = 0
+        nodoUencontrado = False
+        nodoVencontrado = False
+        while ((indice < len(listaDS)) & (indicesEncontrados == False)):
+            j = 0
+            while (j < len(listaDS[indice])):
+                nodo = listaDS[indice][j]
+                if (nodo.value == arista[0]):
+                    indu = indice
+                    nodoUencontrado = False
+                else:
+                    if (nodo.value == arista[1]):
+                        indv = indice
+                        nodoVencontrado = False
+                j = j+1
+                indicesEncontrados = nodoUencontrado & nodoVencontrado
+            indice = indice + 1
+        representante_u = DisjointSet.findSet(listaDS[indu][0])
+        representante_v = DisjointSet.findSet(listaDS[indv][0])
+        if (representante_u != representante_v):
+            DisjointSet.joinSet(representante_u,representante_v)
             nuevoConjuntoDisjunto = []
             nuevoConjuntoDisjunto.extend(listaDS[indu])
             nuevoConjuntoDisjunto.extend(listaDS[indv])
