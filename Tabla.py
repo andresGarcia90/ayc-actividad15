@@ -1,6 +1,6 @@
 class Tabla:
     def __init__(self):
-        self.head = ["n° Grafo", "Nodos", "Arcos", "Flag-conexo", "  BFS   ", "Disjoin-set"]
+        self.head = ["n° Grafo", "Nodos", "Arcos", "Flag-conexo", "  BFS   ", "Disjoint-set"]
         self.head_2 = ["n° Grafo", "Nodos", "Arcos", "Flag-conexo", "  Kruskal Arcos ", "  Kruskal MinHeap", "  Kruskal c/h ","  Kruskal s/h "]
         self.linea = 64
         self.linea_2 = 103
@@ -24,7 +24,7 @@ class Tabla:
         print(" ","-"*self.linea)
 
         for d in self.datos:
-            print("| "," "*(4-len("  ")),d[0]," "*(3-len(str(d[0]))),"| ", d[1], " "*(3-len(str(d[1]))), "| ", d[2], " "*(3-len(str(d[2]))), "|    ", d[4], " "*(6-len(str(d[4]))), "|  ", d[4], " "*(5-len(str(d[4]))), "|   ", d[5], " "*(7-len(str(d[5]))), "| " )
+            print("| "," "*(4-len("  ")),d[0]," "*(3-len(str(d[0]))),"| ", d[1], " "*(3-len(str(d[1]))), "| ", d[2], " "*(3-len(str(d[2]))), "|    ", d[3], " "*(6-len(str(d[3]))), "|  ", d[4], " "*(7-len(str(d[4]))), "|  ", d[5], " "*(7-len(str(d[5]))), "| " )
         print(" ","-"*self.linea)
         print("")
         print("")
@@ -37,7 +37,7 @@ class Tabla:
         print(s)
         print(" ","-"*self.linea_2)
         for d in self.datos_2:
-            print("| "," "*(4-len("  ")),d[0], " "*(3-len(str(d[0]))),"| ", d[1], " "*(3-len(str(d[1]))), "| ", d[2], " "*(3-len(str(d[2]))), "|    ",d[3]," "*(6-len(str(d[3]))),"|   ",d[4]," "*(9-len(str(d[4]))),"|    ",d[5]," "*(10-len(str(d[5]))),"| ",d[6]," "*(10-len(str(d[6]))),"| ",d[7]," "*(10-len(str(d[7]))),"| ")
+            print("| "," "*(4-len("  ")),d[0], " "*(3-len(str(d[0]))),"| ", d[1], " "*(6-len(str(d[1]))), "| ", d[2], " "*(3-len(str(d[2]))), "|    ",d[3]," "*(6-len(str(d[3]))),"|   ",d[4]," "*(9-len(str(d[4]))),"|    ",d[5]," "*(10-len(str(d[5]))),"| ",d[6]," "*(10-len(str(d[6]))),"| ",d[7]," "*(10-len(str(d[7]))),"| ")
         print(" ","-"*self.linea_2)
         print("")
         print("")
