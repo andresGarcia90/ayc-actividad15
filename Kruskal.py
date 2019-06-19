@@ -248,7 +248,7 @@ def kruskal_2b_1(listaAdyacencia,arcos):
     #print("ordenados por peso ",arcosAux)
     tree = Arbol.arbol()
     listaTree = []
-    while(len(arcosAux) != 0 and len(listaDS) > 1): #O(n)
+    while(len(arcosAux) != 0 and len(listaDS) > 1): #O(a)
         arista = arcosAux[0][0]
         indu = 0
         indv = 0
@@ -258,7 +258,7 @@ def kruskal_2b_1(listaAdyacencia,arcos):
         nodoVencontrado = False
         while ((indice < len(listaDS)) & (indicesEncontrados == False)):    #O(n)
             j = 0
-            while (j < len(listaDS[indice])):
+            while (j < len(listaDS[indice])):                               
                 nodo = listaDS[indice][j]
                 if (nodo.value == arista[0]):
                     indu = indice
@@ -332,16 +332,16 @@ def kruskal_2b_1(listaAdyacencia,arcos):
     
 def kruskal_2b_2(listaAdyacencia,arcos):
     listaDS = []
-    arcosAux = arcos.copy()
-    porIngresar = list(range(len(listaAdyacencia)))
-    for nodo in porIngresar:
+    arcosAux = arcos.copy()                                         #O(A)
+    porIngresar = list(range(len(listaAdyacencia)))                 #O(N)
+    for nodo in porIngresar:                                        #O(N)
         a = disjoinSet_SinHeuristicas.MakeSet_SinHeuristica(nodo)
         listaDS.append(a)
-    arcosAux.sort(key=lambda tupla: tupla[1])
+    arcosAux.sort(key=lambda tupla: tupla[1])                       #O(alog a)
     #print("ordenados por peso ",arcosAux)
-    tree = Arbol.arbol()
+    tree = Arbol.arbol()                                            
     listaTree = []
-    while(len(arcosAux) != 0 and len(listaDS) > 1):
+    while(len(arcosAux) != 0 and len(listaDS) > 1):                 #O(n)
         arista = arcosAux[0][0]
         indu = 0
         indv = 0
@@ -349,7 +349,7 @@ def kruskal_2b_2(listaAdyacencia,arcos):
         indice = 0
         nodoUencontrado = False
         nodoVencontrado = False
-        while ((indice < len(listaDS)) & (indicesEncontrados == False)):
+        while ((indice < len(listaDS)) & (indicesEncontrados == False)):    #O(n)
             j = 0
             while (j < len(listaDS[indice])):
                 nodo = listaDS[indice][j]
@@ -363,10 +363,10 @@ def kruskal_2b_2(listaAdyacencia,arcos):
                 j = j+1
                 indicesEncontrados = nodoUencontrado & nodoVencontrado
             indice = indice + 1
-        representante_u = disjoinSet_SinHeuristicas.findSet_SinHeuristica(listaDS[indu][0],listaDS)
-        representante_v = disjoinSet_SinHeuristicas.findSet_SinHeuristica(listaDS[indv][0],listaDS)
+        representante_u = disjoinSet_SinHeuristicas.findSet_SinHeuristica(listaDS[indu][0],listaDS)             #O(n)
+        representante_v = disjoinSet_SinHeuristicas.findSet_SinHeuristica(listaDS[indv][0],listaDS)             #O(n)
         if (representante_u != representante_v):
-            listaDS = disjoinSet_SinHeuristicas.union_SinHeuristica(representante_u,representante_v,listaDS)
+            listaDS = disjoinSet_SinHeuristicas.union_SinHeuristica(representante_u,representante_v,listaDS)    #O(n²)
             peso = arcosAux[0][1]
             if(tree.size == 0):
                raiz = tree.insertarRaiz(arista[0])
@@ -397,9 +397,9 @@ def kruskal_2b_2(listaAdyacencia,arcos):
                             arb2 = buscarNodosArboles_sin_nodo(listaTree,representante_v)
                             if((arb1.size) >= (arb2.size)):
                                 listaTree.remove(arb2)
-                                arb1.combinarArbol(arista[0],arb2,arista[1],peso)
+                                arb1.combinarArbol(arista[0],arb2,arista[1],peso)           #O (lg n)
                             else:
                                 listaTree.remove(arb1)
-                                arb2.combinarArbol(arista[1],arb1,arista[0],peso)
+                                arb2.combinarArbol(arista[1],arb1,arista[0],peso)           #O (lg n)
         arcosAux.remove(arcosAux[0])
     return listaTree[0]
