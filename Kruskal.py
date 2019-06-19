@@ -50,8 +50,8 @@ def buscarNodosArboles_sin_nodo(t_list,u):
 def kruskal_con_conjunto(nodos,arcos):
     arcosOrdenados=[]
     #inserto arcos en una lista ordenada
-    for arco in arcos:
-        agregarElementoLista(arcosOrdenados, arco)
+    for arco in arcos:                                  #O(A^2)
+        agregarElementoLista(arcosOrdenados, arco)          
     #creo una lista de arboles
     t_list = []
     
@@ -59,14 +59,14 @@ def kruskal_con_conjunto(nodos,arcos):
 
     #creo los conjuntos disjuntos de nodos
     listaDS = []
-    for nodo in nodos:
+    for nodo in nodos:                                  #O(n)
         a = [DisjointSetHeuristicas.MakeSet(nodo)]
         listaDS.append(a)
 
-    listaDS_aux = listaDS.copy()
+    #listaDS_aux = listaDS.copy()
 
     i = 0
-    while ( len(listaDS) > 1 and len(arcosOrdenados) > 0):
+    while ( len(listaDS) > 1 and len(arcosOrdenados) > 0): #O(n)
         arco = obtenerPrimero(arcosOrdenados)
         indu = 0
         indv = 0
@@ -74,7 +74,7 @@ def kruskal_con_conjunto(nodos,arcos):
         indice = 0
         nodoUencontrado = False
         nodoVencontrado = False
-        while ((indice < len(listaDS)) & (indicesEncontrados == False)):
+        while ((indice < len(listaDS)) & (indicesEncontrados == False)): #O(n)
             j = 0
             while (j < len(listaDS[indice])):
                 nodo = listaDS[indice][j]
@@ -106,16 +106,16 @@ def kruskal_con_conjunto(nodos,arcos):
             #caso en que se inserto un elemento
             else:
                 #busco si en la lista hay un arbol que contiene a los nodos.
-                arbol_nuevo_u = buscarNodosArboles(t_list,u)
-                arbol_nuevo_v = buscarNodosArboles(t_list,v)
+                arbol_nuevo_u = buscarNodosArboles(t_list,u)    #O(n/2)
+                arbol_nuevo_v = buscarNodosArboles(t_list,v)    
                 #Encontre un arbol de la lista que tiene al nodo
                 if arbol_nuevo_u != None and arbol_nuevo_v != None:
-                    nodo_aux_u = arbol_nuevo_u.obtenerNodo(u.value)
+                    nodo_aux_u = arbol_nuevo_u.obtenerNodo(u.value) #O(n)
                     nodo_aux_v = arbol_nuevo_v.obtenerNodo(v.value)
                     #combinamos el arbol
-                    arbol_nuevo_u.combinarArbol(nodo_aux_u.dato,arbol_nuevo_v,nodo_aux_v.dato,peso)
+                    arbol_nuevo_u.combinarArbol(nodo_aux_u.dato,arbol_nuevo_v,nodo_aux_v.dato,peso) #O(lg n)
                     i = i+1
-                    t_list.remove(arbol_nuevo_v)
+                    t_list.remove(arbol_nuevo_v)    #O(1)
                 else:
                     if(arbol_nuevo_u != None):
                         nodo_aux_u = arbol_nuevo_u.obtenerNodo(u.value)
@@ -142,7 +142,7 @@ def kruskal_con_conjunto(nodos,arcos):
 
 def kruskal_con_heap(nodos,arcos):
     h = Heap.BinHeap()
-    h.buildHeap(arcos)
+    h.buildHeap(arcos)                  #O(A)
     #creo una lista de arboles
     t_list = []
     
@@ -150,14 +150,14 @@ def kruskal_con_heap(nodos,arcos):
 
     #creo los conjuntos disjuntos de nodos
     listaDS = []
-    for nodo in nodos:
+    for nodo in nodos:                          #O(n)
         a = [DisjointSetHeuristicas.MakeSet(nodo)]
         listaDS.append(a)
 
-    listaDS_aux = listaDS.copy()
+    #listaDS_aux = listaDS.copy()
 
     i = 0
-    while ( h.size() > 0 and len(listaDS) > 1):
+    while ( h.size() > 0 and len(listaDS) > 1): #O(n^2)
         arco = h.delMin()
         indu = 0
         indv = 0
@@ -239,16 +239,16 @@ def kruskal_con_heap(nodos,arcos):
 
 def kruskal_2b_1(listaAdyacencia,arcos):
     listaDS = []
-    arcosAux = arcos.copy()
-    porIngresar = list(range(len(listaAdyacencia)))
-    for nodo in porIngresar:
+    arcosAux = arcos.copy()                     #O(A)
+    porIngresar = list(range(len(listaAdyacencia))) #O(N)
+    for nodo in porIngresar:                            #O(n)
         a = [DisjointSetHeuristicas.MakeSet(nodo)]
         listaDS.append(a)
-    arcosAux.sort(key=lambda tupla: tupla[1])
+    arcosAux.sort(key=lambda tupla: tupla[1])       #O(A logA)
     #print("ordenados por peso ",arcosAux)
     tree = Arbol.arbol()
     listaTree = []
-    while(len(arcosAux) != 0 and len(listaDS) > 1):
+    while(len(arcosAux) != 0 and len(listaDS) > 1): #O(n)
         arista = arcosAux[0][0]
         indu = 0
         indv = 0
@@ -256,7 +256,7 @@ def kruskal_2b_1(listaAdyacencia,arcos):
         indice = 0
         nodoUencontrado = False
         nodoVencontrado = False
-        while ((indice < len(listaDS)) & (indicesEncontrados == False)):
+        while ((indice < len(listaDS)) & (indicesEncontrados == False)):    #O(n)
             j = 0
             while (j < len(listaDS[indice])):
                 nodo = listaDS[indice][j]
@@ -277,7 +277,7 @@ def kruskal_2b_1(listaAdyacencia,arcos):
         if (representante_u != representante_v):
             DisjointSetHeuristicas.union(u,v)
             nuevoConjuntoDisjunto = []
-            nuevoConjuntoDisjunto.extend(listaDS[indu])
+            nuevoConjuntoDisjunto.extend(listaDS[indu]) #O(n)
             nuevoConjuntoDisjunto.extend(listaDS[indv])
             if (indu < indv):
                 listaDS.remove(listaDS[indu])
@@ -316,11 +316,11 @@ def kruskal_2b_1(listaAdyacencia,arcos):
                             porIngresar.remove(arista[1])
                         else:
                             #arco = [u,v], u y v fueron insertados en el árbol
-                            arb1 = buscarNodosArboles(listaTree,representante_u)
+                            arb1 = buscarNodosArboles(listaTree,representante_u)    #O (lg n)
                             arb2 = buscarNodosArboles(listaTree,representante_v)
                             if((arb1.size) >= (arb2.size)):
                                 listaTree.remove(arb2)
-                                arb1.combinarArbol(arista[0],arb2,arista[1],peso)
+                                arb1.combinarArbol(arista[0],arb2,arista[1],peso)   #O (lg n)
                             else:
                                 listaTree.remove(arb1)
                                 arb2.combinarArbol(arista[1],arb1,arista[0],peso)
