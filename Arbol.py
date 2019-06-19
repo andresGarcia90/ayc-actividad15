@@ -129,3 +129,4 @@ class arbol:
 # arbol.insertar(arbol.raiz,1,3,1)
 # arbol.insertar(arbol.raiz,2,4,1)
 # print(arbol.preorden(arbol.raiz,0))
+

@@ -2,7 +2,6 @@ import Arbol
 import DisjointSet
 import Heap
 
-
 #algo mas para probar
 
 
