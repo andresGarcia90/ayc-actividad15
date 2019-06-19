@@ -1,5 +1,5 @@
 import Arbol
-import DisjointSet
+# import DisjointSet
 import disjoinSet_SinHeuristicas
 import Heap
 import DisjointSetHeuristicas
@@ -54,7 +54,7 @@ def kruskal_con_conjunto(nodos,arcos):
     #creo los conjuntos disjuntos de nodos
     listaDS = []
     for nodo in nodos:
-        a = DisjointSetHeuristicas.MakeSet(nodo)
+        a = [DisjointSetHeuristicas.MakeSet(nodo)]
         listaDS.append(a)
 
     listaDS_aux = listaDS.copy()
@@ -62,13 +62,33 @@ def kruskal_con_conjunto(nodos,arcos):
     i = 0
     while ( len(arcosOrdenados) > 0):
         arco = obtenerPrimero(arcosOrdenados)
-        #print("arco", arco[0][0], arco[0][1])
-        u = buscarNodo(listaDS_aux,arco[0][0])
-        v = buscarNodo(listaDS_aux,arco[0][1]) 
+        indu = 0
+        indv = 0
+        indicesEncontrados = False
+        indice = 0
+        nodoUencontrado = False
+        nodoVencontrado = False
+        while ((indice < len(listaDS)) & (indicesEncontrados == False)):
+            j = 0
+            while (j < len(listaDS[indice])):
+                nodo = listaDS[indice][j]
+                if (nodo.value == arco[0][0]):
+                    indu = indice
+                    nodoUencontrado = False
+                else:
+                    if (nodo.value == arco[0][1]):
+                        indv = indice
+                        nodoVencontrado = False
+                j = j+1
+                indicesEncontrados = nodoUencontrado & nodoVencontrado
+            indice = indice + 1
+        u = listaDS[indu][0]
+        v = listaDS[indv][0]
+       
         u_conjunto = DisjointSetHeuristicas.findSet(u)
         v_conjunto = DisjointSetHeuristicas.findSet(v)
         if u_conjunto != v_conjunto:
-            uv_conjunto = DisjointSetHeuristicas.union(u,v)
+            DisjointSetHeuristicas.union(u,v)
             peso = arco[1]
             #caso de la raiz
             if (len(t_list) == 0):
@@ -109,9 +129,6 @@ def kruskal_con_conjunto(nodos,arcos):
                             t.insertar(raiz,u.value,v.value,peso)
                             i=i+2
                             t_list.append(t)
-            listaDS.append(uv_conjunto)
-            listaDS.remove(v_conjunto)
-            listaDS.remove(u_conjunto)
 
     return t_list[0]
 
@@ -128,7 +145,7 @@ def kruskal_con_heap(nodos,arcos):
     #creo los conjuntos disjuntos de nodos
     listaDS = []
     for nodo in nodos:
-        a = DisjointSetHeuristicas.MakeSet(nodo)
+        a = [DisjointSetHeuristicas.MakeSet(nodo)]
         listaDS.append(a)
 
     listaDS_aux = listaDS.copy()
@@ -136,13 +153,33 @@ def kruskal_con_heap(nodos,arcos):
     i = 0
     while ( h.size() > 0):
         arco = h.delMin()
-        #print("arco", arco[0][0], arco[0][1])
-        u = buscarNodo(listaDS_aux,arco[0][0])
-        v = buscarNodo(listaDS_aux,arco[0][1]) 
+        indu = 0
+        indv = 0
+        indicesEncontrados = False
+        indice = 0
+        nodoUencontrado = False
+        nodoVencontrado = False
+        while ((indice < len(listaDS)) & (indicesEncontrados == False)):
+            j = 0
+            while (j < len(listaDS[indice])):
+                nodo = listaDS[indice][j]
+                if (nodo.value == arco[0][0]):
+                    indu = indice
+                    nodoUencontrado = False
+                else:
+                    if (nodo.value == arco[0][1]):
+                        indv = indice
+                        nodoVencontrado = False
+                j = j+1
+                indicesEncontrados = nodoUencontrado & nodoVencontrado
+            indice = indice + 1
+        u = listaDS[indu][0]
+        v = listaDS[indv][0]
+
         u_conjunto = DisjointSetHeuristicas.findSet(u)
         v_conjunto = DisjointSetHeuristicas.findSet(v)
         if u_conjunto != v_conjunto:
-            uv_conjunto = DisjointSetHeuristicas.union(u,v)
+            DisjointSetHeuristicas.union(u,v)
             peso = arco[1]
             #caso de la raiz
             if (len(t_list) == 0):
@@ -183,9 +220,6 @@ def kruskal_con_heap(nodos,arcos):
                             t.insertar(raiz,u.value,v.value,peso)
                             i=i+2
                             t_list.append(t)
-            listaDS.append(uv_conjunto)
-            listaDS.remove(v_conjunto)
-            listaDS.remove(u_conjunto)
 
     return t_list[0]
 
