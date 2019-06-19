@@ -98,34 +98,9 @@ class arbol:
  
     def preorden(self,nodo,nivel):
         if (nodo != self.raiz):
-            print("nodo: ",nodo.dato, " padre: ",nodo.padre.dato , "peso al padre ",nodo.peso_padre," nivel ",nivel)
+            print("nodo: ",nodo.dato, " padre: ",nodo.padre.dato , "peso al padre: ",nodo.peso_padre," nivel: ",nivel)
         else:
             print("nodo raíz: ",nodo.dato, " nivel ",nivel)
         if(nodo.hijos != None):
             for h in nodo.hijos:
                 self.preorden(h,nivel+1)
-    
-    def preorden2(self,nodo,lista = []):
-        lista.append(nodo.dato)
-        if(nodo.hijos != None):
-            for h in nodo.hijos:
-                self.preorden2(h)
-        return lista
-
-    def preorden3(self,nodo,lista = []):
-        lista.append(nodo)
-        if(nodo.hijos != None):
-            for h in nodo.hijos:
-                self.preorden3(h)
-        return lista
-
-
-# arbol=arbol()
-# print("creo el arbol",arbol)
-# arbol.raiz = arbol.insertarRaiz(0)
-# print("inserto la raiz: ",arbol.raiz.dato)
-# arbol.insertar(arbol.raiz,0,1,1)
-# arbol.insertar(arbol.raiz,0,2,1)
-# arbol.insertar(arbol.raiz,1,3,1)
-# arbol.insertar(arbol.raiz,2,4,1)
-# print(arbol.preorden(arbol.raiz,0))

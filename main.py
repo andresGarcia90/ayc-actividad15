@@ -28,6 +28,8 @@ class Grafo:
             url += "&conexo=1"
         r = requests.get(url)
         self.grafo = json.loads(r.text)
+        #r_aux = '{"nodos":[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],"arcos":[[[16, 14], 625], [[19, 0], 666], [[2, 3], 235], [[17, 8], 84], [[18, 19], 678], [[14, 7], 540], [[1, 2], 349], [[15, 8], 304], [[14, 15], 588], [[13, 7], 282], [[5, 6], 413], [[6, 7], 481], [[13, 14], 410], [[0, 1], 151], [[17, 18], 220], [[8, 9], 428], [[9, 10], 767], [[10, 11], 654], [[15, 16], 232], [[11, 12], 736], [[4, 14], 979], [[3, 4], 250], [[19, 4], 375], [[17, 4], 440], [[7, 8], 997], [[4, 5], 654], [[5, 2], 530], [[14, 1], 518], [[12, 13], 509], [[8, 10], 381]]}'
+        #self.grafo = json.loads(r_aux)
         self.nodos = self.grafo['nodos']
         self.arcos = [self.Pesado(x) for x in self.grafo['arcos']]
 
@@ -91,9 +93,18 @@ print("-------------------------------------------------")
 
 arcos = g1["arcos"]
 arbolMinimal = Kruskal.kruskal_2b_1(m1, arcos)
-print("Arbol minimal")
+print("Arbol minimal utilizando Disjoint Set con Heurísticas:")
 arbolMinimal.preorden(arbolMinimal.raiz,0)
 
+print("-------------------------------------------------")
+print("Arbol minimal utilizando un Heap invertido:")
+arbol_minimal_heap = Kruskal.kruskal_con_heap(grafo.nodos, arcos)
+arbol_minimal_heap.preorden(arbol_minimal_heap.raiz, 0)
+
+print("-------------------------------------------------")
+print("Arbol minimal utilizando un conjunto de arcos ordenados por su peso:")
+arbol_minimal_heap = Kruskal.kruskal_con_conjunto(grafo.nodos, arcos)
+arbol_minimal_heap.preorden(arbol_minimal_heap.raiz, 0)
 print("--- %s segundos ---" % (time.time()- start_time))
 """
 Generar varios grafos. 
